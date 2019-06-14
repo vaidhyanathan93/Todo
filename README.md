@@ -1,24 +1,29 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the  Todo Application API using ROR. The sample API coverage is below. 
+ 
 
-Things you may want to cover:
+ 
+* Ruby version 
 
-* Ruby version
+2.6.0
 
 * System dependencies
 
-* Configuration
+Ruby, Mysql
+
 
 * Database creation
 
-* Database initialization
+rake db:migrate
+
 
 * How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+rspec spec
 
 * Deployment instructions
 
-* ...
+
+*API Usage 
+

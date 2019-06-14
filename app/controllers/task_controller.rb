@@ -1,6 +1,9 @@
 class TaskController < ApplicationController
+  include ActionController::HttpAuthentication::Basic::ControllerMethods
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 
   before_action :load_task, only: %i[update destroy show complete incomplete]
+  before_action :authenticate
 
   def index
     result = Task.all
@@ -55,6 +58,19 @@ class TaskController < ApplicationController
   def render_not_found
     render json: { message: "Resource not found" }, status: 404
   end
+
+  protected
+
+  def authenticate
+    authenticate_or_request_with_http_basic do |username, password|
+      # you probably want to guard against a wrong username, and encrypt the
+      # password but this is the idea.
+      @user = User.find_by_email(username)
+      Thread.current[:user] = @user
+          @user.password == password
+    end
+  end
+
 
   private
 
