@@ -4,10 +4,16 @@ class User < ApplicationRecord
   validate :password_validator
 
   def password_validator
-    self.errors.add :base, "Password should be reverse of email" unless password.eql?(email.reverse)
+    self.errors.add :base, "Password should be reverse of email" unless password == email.reverse
   end
 
   def password
     @password ||= Password.new(password_digest)
   end
+
+  def password=(new_password)
+    @password = Password.create(new_password)
+    self.password_digest = @password
+  end
 end
+

@@ -1,12 +1,10 @@
 class TaskController < ApplicationController
-  include ActionController::HttpAuthentication::Basic::ControllerMethods
-  include ActionController::HttpAuthentication::Token::ControllerMethods
-
   before_action :load_task, only: %i[update destroy show complete incomplete]
-  before_action :authenticate
+
+  before_action :authenticate_user
 
   def index
-    result = Task.all
+    result = params[:status].nil? ? Task.all : Task.all.where(status: params[:status])
     respond_to do |format|
       format.json do
         render json: result, each_serializer: TaskSerializer
@@ -31,13 +29,13 @@ class TaskController < ApplicationController
   end
 
   def complete
-    @task.is_completed = true
+    @task.status = STATUS[:closed]
     save_task
     render_response
   end
 
   def incomplete
-    @task.is_completed = false
+    @task.status = STATUS[:open]
     save_task
     render_response
   end
@@ -59,19 +57,6 @@ class TaskController < ApplicationController
     render json: { message: "Resource not found" }, status: 404
   end
 
-  protected
-
-  def authenticate
-    authenticate_or_request_with_http_basic do |username, password|
-      # you probably want to guard against a wrong username, and encrypt the
-      # password but this is the idea.
-      @user = User.find_by_email(username)
-      Thread.current[:user] = @user
-          @user.password == password
-    end
-  end
-
-
   private
 
   def render_response
@@ -87,7 +72,7 @@ class TaskController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:todo, :is_completed, :date)
+    params.require(:task).permit(:todo, :status, :date)
   end
 
 end

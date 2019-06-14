@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_06_14_043232) do
     t.string "todo"
     t.date "date"
     t.bigint "creator_id", unsigned: true
-    t.boolean "is_completed", default: false, null: false
+    t.boolean "status", default: false, null: false
     t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
