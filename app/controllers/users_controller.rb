@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   wrap_parameters :user, include: [:email, :password, :password_confirmation]
+  skip_before_action :authenticate_user
 
   # POST /users
   def create

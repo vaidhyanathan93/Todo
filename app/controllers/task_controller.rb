@@ -1,8 +1,6 @@
 class TaskController < ApplicationController
   before_action :load_task, only: %i[update destroy show complete incomplete]
 
-  before_action :authenticate_user
-
   def index
     result = params[:status].nil? ? Task.all : Task.all.where(status: params[:status])
     respond_to do |format|
