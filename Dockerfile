@@ -1,12 +1,7 @@
-FROM ruby:2.3.0
+FROM ruby:2.6.0
 ENV LANG C.UTF-8
 
-RUN apt-get update && \
-    apt-get install -y nodejs \
-                       vim \
-                       mysql-client \
-                       --no-install-recommends && \
-    rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
 
 #Cache bundle install
 WORKDIR /tmp
