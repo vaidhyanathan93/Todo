@@ -5,8 +5,8 @@ mysql:
   volumes_from:
     - dbdata
   environment:
-    - MYSQL_ROOT_PASSWORD=root
     - MYSQL_DATABASE=TodoMVC_development
+    - MYSQL_ALLOW_EMPTY_PASSWORD="true"
 
 dbdata:
   image: tianon/true
